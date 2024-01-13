@@ -2,3 +2,4 @@
    16  alias l="ls -la"
    36  pip3 install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org dt-apriltags
    40  pip3 install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org opencv-python
+sudo mount -o remount,ro /
