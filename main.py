@@ -13,19 +13,27 @@ at_detector = Detector(families='tag36h11',
                        debug=0)
 
 
+two_cam = True
+show_video = True
+
 # define a video capture object 
 vid = cv2.VideoCapture(0) 
+if two_cam:
+    vid2 = cv2.VideoCapture(2) 
+    vid2.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('M','J','P','G'))
   
 while(True): 
       
     # Capture the video frame 
     # by frame 
     ret, frame = vid.read() 
+    if two_cam:
+        ret2, frame2 = vid2.read() 
   
-    # Display the resulting frame 
-    cv2.imshow('frame', frame) 
     # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
+    if two_cam:
+        gray2 = cv2.cvtColor(frame2, cv2.COLOR_RGB2GRAY)
     tags = at_detector.detect(gray, False)
     if len(tags) > 0:
         tag = tags[0]
@@ -37,8 +45,22 @@ while(True):
         print(tags[0])
         print("\n")
 
+    tags = at_detector.detect(gray2, False)
+    if len(tags) > 0 and two_cam:
+        tag = tags[0]
+        top_left_x = int(tag.corners[1][0])
+        top_left_y = int(tag.corners[1][1])
+        bottom_left_x = int(tag.corners[3][0])
+        bottom_left_y = int(tag.corners[3][1])
+        cv2.rectangle(gray2,(top_left_x, top_left_y),(bottom_left_x, bottom_left_y),(0,255,0),3)
+        print(tags[0])
+        print("\n")
+
     # Display the resulting frame
-    cv2.imshow('frame', gray)      
+    if show_video:
+        cv2.imshow('frame', gray)      
+        if two_cam:
+            cv2.imshow('frame2', gray2)      
     # the 'q' button is set as the 
     # quitting button you may use any 
     # desired button of your choice 
