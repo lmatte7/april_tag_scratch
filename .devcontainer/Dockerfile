@@ -19,6 +19,6 @@ RUN  pip3 install --trusted-host pypi.org --trusted-host pypi.python.org --trust
 
 RUN mkdir /home/app
 WORKDIR /home/app
-RUN touch main.py
+RUN alias python="python3"
 
 
